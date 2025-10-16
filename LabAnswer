@@ -1,0 +1,69 @@
+// LabWeek08 - PrimeDigitThree
+// Author: John Angelo Romualdo
+// Description:
+// This program finds all prime numbers from 0 to n (where n < 1,000,000),
+// stores them in a LinkedList, filters those containing the digit '3' into another list,
+// and calculates the sum of the second list.
+
+import java.util.LinkedList;
+
+public class LabWeek08_PrimeDigitThree {
+
+    // Checks if a number is prime
+    public static boolean isPrime(int num) {
+        if (num <= 1) return false;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
+
+    // Checks if a number contains the digit '3'
+    public static boolean containsDigitThree(int num) {
+        return String.valueOf(num).contains("3");
+    }
+
+    public static void main(String[] args) {
+        int n = 100; // Example value; can be changed to any number < 1,000,000
+
+        if (n >= 1000000) {
+            System.out.println("Error: n must be less than 1,000,000.");
+            return;
+        }
+
+        // List to store all prime numbers from 0 to n
+        LinkedList<Integer> allPrimes = new LinkedList<>();
+
+        // Populate allPrimes with prime numbers
+        for (int i = 0; i <= n; i++) {
+            if (isPrime(i)) {
+                allPrimes.add(i);
+            }
+        }
+
+        // List to store primes that contain the digit '3'
+        LinkedList<Integer> primesWithThree = new LinkedList<>();
+
+        // Filter primes with digit '3' into the second list
+        for (int i = 0; i < allPrimes.size(); ) {
+            int prime = allPrimes.get(i);
+            if (containsDigitThree(prime)) {
+                primesWithThree.add(prime);
+                allPrimes.remove(i); // Remove from original list
+            } else {
+                i++; // Only increment if not removed
+            }
+        }
+
+        // Calculate the sum of primes with digit '3'
+        long sumOfPrimesWithThree = 0;
+        for (int prime : primesWithThree) {
+            sumOfPrimesWithThree += prime;
+        }
+
+        // Output results
+        System.out.println("All Prime Numbers (0 to " + n + "): " + allPrimes);
+        System.out.println("Prime Numbers containing '3': " + primesWithThree);
+        System.out.println("Sum of Prime Numbers containing '3': " + sumOfPrimesWithThree);
+    }
+}
